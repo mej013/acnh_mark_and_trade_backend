@@ -1,0 +1,38 @@
+plugins {
+	id 'org.springframework.boot' version "$springBootVersion"
+	id 'org.jetbrains.kotlin.jvm' version "$kotlinVersion"
+	id 'java'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group = 'acnh_backend'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+wrapper {
+	distributionType = Wrapper.DistributionType.ALL
+}
+
+dependencies {
+	implementation "org.springframework.boot:spring-boot-starter-data-mongodb"
+	implementation "org.springframework.boot:spring-boot-starter-web"
+	implementation "org.springframework.boot:spring-boot-starter-security"
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+	implementation "com.auth0:java-jwt:3.8.3"
+	implementation "com.graphql-java-kickstart:graphql-spring-boot-starter:$graphqlKickstartVersion"
+	runtimeOnly "com.graphql-java-kickstart:graphiql-spring-boot-starter:$graphqlKickstartVersion"
+	compileOnly 'org.projectlombok:lombok:1.18.22'
+	annotationProcessor 'org.projectlombok:lombok:1.18.22'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+
+test {
+	useJUnitPlatform()
+}

@@ -1,0 +1,395 @@
+type Query {
+    findAllCreatures: [Creature!]!
+    findCreaturesByCategory(category: String!): [Creature!]
+    findAllFossils: [Fossil!]!
+    findAllArts: [Art!]!
+    findArtsByTag(tag: String!): [Art!]
+    findAllFurniture(pageSize: Int, after: String): FurnitureConnection!
+    findFurnitureById(id: String!): Furniture
+    findAllMaterial(pageSize: Int, after: String): MaterialConnection!
+    findMaterialById(id: String!): Material
+    findAllRecipes(pageSize: Int, after: String): RecipeConnection!
+    findRecipeById(id: String!): Recipe
+    findRecipeByIds(ids: [Int!]!): [Recipe]!
+    findRecipeByItem(itemId: Int!): Recipe!
+    findAllClothes(pageSize: Int, after: String): ClothesConnection!
+    findClothesByCategory(category: String!): [Clothes!]
+    findClothesById(id: String!): Clothes!
+    findAllTools: [Tool!]!
+    findToolById(id: String!): Tool
+    findAllFood: [Food!]!
+    findFoodById(id: String!): Food
+    findAllUmbrellas: [Umbrella!]!
+    findUmbrellaById(id: String!): Umbrella
+    findAllVillagers: [Villager!]!
+    findVillagerById(id: String!): Villager
+    findAllReactions: [Reaction!]!
+    findReactionById(id: String!): Reaction
+    findAllPosters: [Poster!]!
+    findPosterById(id: String!): Poster
+    findAllPhotos: [Photo!]!
+    findPhotoById(id: String!): Photo
+    findAllMusic: [Music!]!
+    findMusicById(id: String!): Music
+    findMusicByName(name: String!): Music
+    currentUser: User
+    person(personId: String!): Person
+    getMaterialItemBymId(category: String!, mid: Int!): Item
+    findMaterialInfoBymIds(categories: [String!]!, mIds: [Int!]!): [Item!]
+}
+
+type Mutation {
+    createUser(userInfo: CreateUserInput!, personInfo: CreatePersonInput!): User!
+    updatePassword(input: UpdatePasswordInput!): User
+    deleteUser(id: String!): Boolean!
+    markItem(userId: String!, internalId: Int!): Boolean!
+    unmarkItem(userId: String!, internalId: Int!): Boolean!
+    updatePerson(input: UpdatePersonInput!): Person
+    login(email: String!, password: String!): User
+}
+
+type Villager {
+    _id: ID!
+    name: String!
+    photoImage: String!
+    houseImage: String!
+    species: String!
+    gender: String!
+    personality: String!
+    hobby: String!
+    birthday: String!
+    catchphrase: String!
+    favoriteSong: String!
+    favoriteSaying: String!
+    furnitureList: [String!]
+    uniqueEntryId: String!
+    imgUrl: String!
+}
+
+type Reaction {
+    _id: ID!
+    name: String!
+    source: [String]!
+    sourceNotes: String
+    internalId: Int!
+    uniqueEntryId: String!
+    sheetKey: String!
+    imgUrl: String!
+}
+
+type Poster {
+    _id: ID!
+    name: String!
+    buy: Int!
+    sell: Int!
+    catalog: String!
+    internalId: Int!
+    uniqueEntryId: String!
+    sheetKey: String!
+    imgUrl: String!
+}
+
+type Photo {
+    _id: ID!
+    name: String!
+    diy: Boolean!
+    customize: Boolean!
+    buy: Int!
+    sell: Int!
+    source: [String]!
+    catalog: String!
+    internalId: Int!
+    sheetKey: String!
+    imgUrl: String!
+    variants: [Info!]
+    variants_len: Int!
+}
+
+type Music {
+    _id: ID!
+    name: String!
+    buy: Int!
+    sell: Int!
+    source: [String]!
+    sourceNotes: String!
+    catalog: String!
+    internalId: Int!
+    uniqueEntryId: String!
+    sheetKey: String!
+    imgUrl: String
+}
+
+type Food {
+    _id: ID!
+    name: String!
+    buy: Int!
+    sell: Int!
+    diy: Boolean!
+    source: [String]!
+    foodPower: Int!
+    catalog: String!
+    internalId: Int!
+    sheetKey: String!
+    customize: Boolean!
+    imgUrl: String!
+    variants: [Info!]
+    variants_len: Int!
+    recipeId: Int!
+}
+
+type Person {
+    _id: ID!
+    username: String!
+    hemisphere: String!
+    island_title: String
+    email: String
+    roles: [String]
+    markedItems: [Int]
+}
+
+type User {
+    token: String
+    person: Person
+}
+
+interface Item {
+    _id: ID!
+    name: String!
+    category: String!
+    internalId: Int!
+    imgUrl: String!
+}
+
+type Creature implements Item{
+    _id: ID!
+    uniqueId: String!
+    category: String!
+    name: String!
+    imgUrl: String!
+    sell: Int!
+    whereHow: String
+    shadow: String
+    speed: String
+    weather: String
+    catchDifficulty: String
+    catchUnlock: Int!
+    internalId: Int!
+    specialSell: Int!
+    description: String!
+    catchPhrase: String!
+    activeMonths: MonthArr!
+    activeHours: HourArr!
+}
+
+type MonthArr{
+    northern: [Int!]!
+    southern: [Int!]!
+}
+type HourArr{
+    northern: [String!]!
+    southern: [String!]!
+}
+
+type Fossil implements Item{
+    _id: ID!
+    uniqueId: String!
+    category: String!
+    name: String!
+    imgUrl: String!
+    internalId: Int!
+    sell: Int!
+    description: String!
+}
+
+type Art implements Item{
+    _id: ID!
+    uniqueId: String!
+    internalId: Int!
+    source: [String!]!
+    category: String!
+    genuine: Boolean!
+    name: String!
+    title: String!
+    artist: String!
+    tag: String!
+    imgUrl: String!
+    buy: Int!
+    sell: Int!
+    description: String!
+}
+
+type Furniture implements Item{
+    _id: ID!
+    cursor: String!
+    name: String!
+    category: String!
+    catalog: String!
+    internalId: Int!
+    imgUrl: String!
+    buy: Int!
+    sell: Int!
+    diy: Boolean!
+    customize: Boolean!
+    sourceNotes: String
+    seasonEvent: String
+    tag: String!
+    series: String
+    source: [String!]!
+    variants: [Info!]
+    variants_len: Int!
+    recipeId: Int!
+}
+
+type Info{
+    uniqueEntryId: String!
+    variation: String
+    image: String
+    closetImage: String
+    pattern: String
+    colors: [String!]
+    themes: [String!]
+}
+
+type FurnitureConnection {
+    cursor: String!
+    hasMore: Boolean!
+    allFurniture:[Furniture]!
+}
+
+type Material implements Item{
+    _id: ID!
+    name: String!
+    buy: Int!
+    sell: Int
+    diy: Boolean!
+    exchangePrice: Int
+    exchangeCurrency: String
+    source: [String]!
+    sourceNotes: String
+    seasonEvent: String
+    seasonEventExclusive: Boolean
+    tag: String!
+    internalId: Int!
+    category: String!
+    uniqueId: String!
+    imgUrl: String!
+    recipeId: Int!
+    objIds: [Int]!
+}
+
+type MaterialConnection {
+    cursor: String!
+    hasMore: Boolean!
+    materials: [Material!]!
+}
+
+type Recipe implements Item{
+    _id: ID!
+    name: String!
+    imgUrl: String!
+    buy: Int!
+    sell: Int!
+    source: [String]!
+    sourceNotes: String
+    recipesToUnlock: Int!
+    internalId: Int!
+    tag: String!
+    category: String!
+    materials: [MaterialInfo!]!
+    craftedId: Int!
+}
+
+type MaterialInfo{
+    mName: String!
+    mCount: Int!
+    mType: String!
+    mId: Int!
+}
+
+type RecipeConnection {
+    cursor: String!
+    hasMore: Boolean!
+    recipes: [Recipe!]!
+}
+
+type Clothes implements Item{
+    _id: ID!
+    name: String!
+    diy: Boolean!
+    buy: Int!
+    sell: Int!
+    source: [String]!
+    sourceNotes: String
+    seasonalAvailability: String!
+    villagerEquippable: Boolean!
+    catalog: String!
+    internalId: Int!
+    category: String!
+    imgUrl: String!
+    recipeId: Int!
+    styles: [String!]!
+    variants: [Info!]
+    variants_len: Int!
+}
+
+type ClothesConnection {
+    cursor: String!
+    hasMore: Boolean!
+    allClothes: [Clothes!]!
+}
+
+type Tool implements Item{
+    _id: ID!
+    name: String!
+    customize: Boolean!
+    diy:Boolean!
+    uses: Float
+    internalId: Int!
+    category: String!
+    sourceNotes: String
+    source: [String]!
+    seasonEvent: String
+    buy: Int!
+    sell: Int
+    imgUrl: String!
+    variants: [Info!]
+    variants_len: Int!
+}
+
+type Umbrella implements Item{
+    _id: ID!
+    name: String!
+    diy: Boolean!
+    buy: Int!
+    sell: Int!
+    source: [String]!
+    sourceNotes: String
+    seasonEvent: String
+    catalog: String!
+    internalId: Int!
+    uniqueId: String!
+    imgUrl: String!
+    category: String!
+}
+
+input CreateUserInput{
+    email: String!
+    password: String!
+}
+
+input UpdatePasswordInput {
+    originalPassword: String!
+    newPassword: String!
+}
+
+input CreatePersonInput{
+    username: String!
+    hemisphere: String!
+    island_title: String
+}
+
+input UpdatePersonInput{
+    username: String!
+    island_title: String
+    hemisphere: String!
+}
